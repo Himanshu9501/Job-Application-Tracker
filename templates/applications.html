@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Applications - Apply Bot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding-top: 40px;
+    }
+
+    .table-container {
+      width: 95%;
+      max-width: 1200px;
+      background-color: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      overflow-x: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #3b82f6;
+      color: white;
+      position: sticky;
+      top: 0;
+    }
+
+    tr:hover {
+      background-color: #e0e7ff;
+    }
+
+    .back-button {
+      display: block;
+      width: 200px;
+      margin: 20px auto 0 auto;
+      padding: 12px;
+      text-align: center;
+      background-color: #3b82f6;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .back-button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <div class="nav-links" id="navLinks">
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('job_details') }}">Job Application</a>
+    <a href="{{ url_for('applications') }}">My Applications</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    width: 100%;
+    background-color: #1e3a8a;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hamburger {
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: none;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 600px) {
+    .hamburger {
+      display: block;
+    }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      background-color: #1e3a8a;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      padding: 10px 0;
+    }
+    .nav-links a {
+      margin: 10px 0;
+      text-align: center;
+    }
+    .nav-links.show {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+  }
+</script>
+
+  <div class="table-container">
+    <h1>My Job Applications</h1>
+    {% if jobs %}
+    <table>
+      <thead>
+        <tr>
+          <th>Job Link</th>
+          <th>Company</th>
+          <th>Role</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Recruiter Name</th>
+          <th>Recruiter Email</th>
+          <th>Recruiter Phone</th>
+          <th>Days Since Created</th>
+          <th>Comments</th>
+          <th>Submitted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for job in jobs %}
+        <tr>
+          <td><a href="{{ job.job_link }}" target="_blank">{{ job.job_link }}</a></td>
+          <td>{{ job.company_name }}</td>
+          <td>{{ job.job_role }}</td>
+          <td>{{ job.job_location }}</td>
+          <td>{{ job.status }}</td>
+          <td>{{ job.recruiter_name }}</td>
+          <td>{{ job.recruiter_email }}</td>
+          <td>{{ job.recruiter_phone }}</td>
+          <td>{{ (loop.index0)|int }}</td>
+          <td>{{ job.comments }}</td>
+          <td>{{ job.created_at }}</td>
+           < <td>
+                <form action="{{ url_for('delete_job', job_id=job.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this job application?');">
+                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p style="text-align:center;">No job applications found. <a href="{{ url_for('job_details') }}">Add a new application</a>.</p>
+    {% endif %}
+    <a href="{{ url_for('job_details') }}" class="back-button">Add Another Application</a>
+  </div>
+</body>
+</html>

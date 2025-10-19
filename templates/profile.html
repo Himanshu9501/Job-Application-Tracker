@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Profile - Apply Bot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-box {
+      width: 450px;
+      padding: 30px;
+      background-color: rgba(255,255,255,0.95);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 12px;
+    }
+
+    .app-name {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1e3a8a;
+      text-align: center;
+    }
+
+    .profile-box p {
+      margin: 6px 0;
+    }
+
+    .edit-button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .edit-button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <div class="nav-links" id="navLinks">
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('job_details') }}">Job Application</a>
+    <a href="{{ url_for('applications') }}">My Applications</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    width: 100%;
+    background-color: #1e3a8a;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hamburger {
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: none;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 600px) {
+    .hamburger {
+      display: block;
+    }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      background-color: #1e3a8a;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      padding: 10px 0;
+    }
+    .nav-links a {
+      margin: 10px 0;
+      text-align: center;
+    }
+    .nav-links.show {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+  }
+</script>
+
+  <div class="profile-box">
+    <div class="app-name">Apply Bot</div>
+
+    <p><strong>First Name:</strong> {{ profile.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
+    <p><strong>Address:</strong> {{ profile.address }}</p>
+    <p><strong>City:</strong> {{ profile.city }}</p>
+    <p><strong>Mobile Number:</strong> {{ profile.mobile_number }}</p>
+    <p><strong>GitHub URL:</strong> {{ profile.github_url }}</p>
+    <p><strong>Job Position:</strong> {{ profile.job_position }}</p>
+    <p><strong>Experience (months):</strong> {{ profile.experience_months }}</p>
+    <p><strong>Skills:</strong> {{ profile.skills }}</p>
+    <p><strong>Preferred Locations:</strong> {{ profile.preferred_locations }}</p>
+
+    <form action="{{ url_for('dashboard') }}">
+      <button type="submit" class="edit-button">Edit</button>
+    </form>
+  </div>
+</body>
+</html>

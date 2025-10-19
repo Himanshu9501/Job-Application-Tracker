@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Apply Bot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dashboard-box {
+      width: 500px;
+      padding: 30px;
+      background-color: rgba(255,255,255,0.95);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 12px;
+    }
+
+    .app-name {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1e3a8a;
+      text-align: center;
+    }
+
+    .dashboard-box input, .dashboard-box textarea, .dashboard-box select {
+      width: 95%;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .dashboard-box button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .dashboard-box button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <div class="nav-links" id="navLinks">
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('job_details') }}">Job Application</a>
+    <a href="{{ url_for('applications') }}">My Applications</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    width: 100%;
+    background-color: #1e3a8a;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hamburger {
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: none;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 600px) {
+    .hamburger {
+      display: block;
+    }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      background-color: #1e3a8a;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      padding: 10px 0;
+    }
+    .nav-links a {
+      margin: 10px 0;
+      text-align: center;
+    }
+    .nav-links.show {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+  }
+</script>
+
+  <div class="dashboard-box">
+    <div class="app-name">Apply Bot</div>
+
+    <form method="POST">
+      <input type="text" name="first_name" placeholder="First Name" required
+             value="{{ profile.first_name if profile else '' }}">
+
+      <input type="text" name="last_name" placeholder="Last Name" required
+             value="{{ profile.last_name if profile else '' }}">
+
+      <textarea name="address" placeholder="Address" required>{{ profile.address if profile else '' }}</textarea>
+
+      <input type="text" name="city" placeholder="City" required
+             value="{{ profile.city if profile else '' }}">
+
+      <input type="text" name="mobile_number" placeholder="Mobile Number" required
+             value="{{ profile.mobile_number if profile else '' }}">
+
+      <input type="url" name="github_url" placeholder="GitHub URL"
+             value="{{ profile.github_url if profile else '' }}">
+
+      <select name="job_position" required>
+        <option value="">Select Job Position</option>
+        <option value="Data Analyst" {% if profile and profile.job_position=='Data Analyst' %}selected{% endif %}>Data Analyst</option>
+        <option value="Data Scientist" {% if profile and profile.job_position=='Data Scientist' %}selected{% endif %}>Data Scientist</option>
+        <option value="Digital Marketing" {% if profile and profile.job_position=='Digital Marketing' %}selected{% endif %}>Digital Marketing</option>
+      </select>
+
+      <input type="number" name="experience_months" placeholder="Experience in months" required
+             value="{{ profile.experience_months if profile else '' }}">
+
+      <textarea name="skills" placeholder="Skills (comma-separated)" required>{{ profile.skills if profile else '' }}</textarea>
+
+      <input type="text" name="preferred_locations" placeholder="Preferred Work Locations" required
+             value="{{ profile.preferred_locations if profile else '' }}">
+
+      <button type="submit">Save Profile</button>
+    </form>
+  </div>
+</body>
+</html>

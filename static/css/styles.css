@@ -1,0 +1,55 @@
+/* Gradient overlay animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Fade-in-from-right animation for form */
+@keyframes fadeInRight {
+  0% { opacity: 0; transform: translateX(50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* Gradient overlay */
+.gradient-overlay {
+  background: linear-gradient(-45deg, rgba(255,255,255,0.1), rgba(0,0,0,0.1), rgba(255,255,255,0.1), rgba(0,0,0,0.1));
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Right-aligned form animation */
+.fade-in-right {
+  animation: fadeInRight 1s ease forwards;
+}
+
+/* Form input hover/focus */
+.form-input {
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 0.5rem; /* rounded-lg */
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #60a5fa; /* blue-400 ring */
+  transform: scale(1.05);
+}
+
+/* Submit button hover */
+.btn-submit {
+  background-color: #3b82f6; /* blue-500 */
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #2563eb; /* blue-600 */
+  transform: scale(1.05);
+}
